@@ -3,8 +3,6 @@ import {  Card, Icon, Image } from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-// import { Link } from "react-router-dom";
-
 const ProductCard = ({ product}) => {
     const history = useHistory();
     const { id, name, ingredients, type} = product;
@@ -18,7 +16,7 @@ const ProductCard = ({ product}) => {
                 <Card.Header>{name}</Card.Header>
                 {ingredients.length > 0 && (
                     <Card.Meta>
-                        <span className="date">Ingredients: {ingredients.map(ingredient => ingredient.name).join(', ')}</span>
+                        <span className="date">Contains, {ingredients.map(ingredient => ingredient.name).join(', ')}</span>
                     </Card.Meta>
                 )}
             </Card.Content>
