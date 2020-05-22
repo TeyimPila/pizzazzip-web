@@ -2,6 +2,9 @@
   "name": "pizzazzip-app",
   "version": "1.0.0",
   "description": "A basic template that consists of the essential elements that are required to start building a React application using Redux",
+  "engines": {
+    "node": "12.13.1"
+  },
   "scripts": {
     "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
     "build": "webpack --env.env=prod",
