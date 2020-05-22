@@ -6,7 +6,7 @@
     "node": "12.13.1"
   },
   "scripts": {
-    "build": "webpack --env.env=prod",
+    "build": "webpack",
     "build:dev": "npm run build -- --env.env=dev",
     "build:dev:watch": "npm run build:dev -- --watch",
     "build:dev:bundleanalyze": "npm run build:dev -- --env.addons=bundleanalyze",
