@@ -6,7 +6,6 @@
     "node": "12.13.1"
   },
   "scripts": {
-    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
     "build": "webpack --env.env=prod",
     "build:dev": "npm run build -- --env.env=dev",
     "build:dev:watch": "npm run build:dev -- --watch",
