@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Header } from '../Header/Header';
 import { HomePage } from '../pages/HomePage/HomePage';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
@@ -10,7 +10,7 @@ import CartPage from "../pages/CartPage/CartPage";
 export const AppRouter = () => (
     <BrowserRouter>
         <Fragment>
-            <BrowserRouter>
+            <HashRouter>
                 <Header />
                 <div style={{ padding: '50px 50px 0 50px' }}>
                     <Switch>
@@ -22,7 +22,7 @@ export const AppRouter = () => (
                         <Redirect to="/" />
                     </Switch>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         </Fragment>
     </BrowserRouter>
 );

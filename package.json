@@ -17,7 +17,7 @@
     "build:prod:watch": "npm run build:prod -- --watch",
     "build:prod:bundleanalyze": "npm run build:prod -- --env.addons=bundleanalyze",
     "build:prod:bundlebuddy": "npm run build:prod -- --env.addons=bundlebuddy",
-    "serve:prod": "live-server ./public",
+    "serve:prod": "npm run build:prod && live-server ./public",
     "lint": "eslint .; exit 0",
     "lint:fix": "eslint . --fix; exit 0",
     "start": "npm run serve:prod",
