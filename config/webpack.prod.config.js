@@ -8,11 +8,7 @@ const config = {
         publicPath: '/',
     },
     devServer: {
-        contentBase: commonPaths.outputPath,
-        compress: true,
         historyApiFallback: true,
-        hot: false,
-        // port: 9000
     },
     plugins: [
         new UglifyJsWebpackPlugin({
