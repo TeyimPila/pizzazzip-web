@@ -2,20 +2,16 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createAppStore } from './state/stores/AppStore';
 import { AppRouter } from './routers/AppRouter';
-
-// IMPORT STORE
-
-// IMPORT COMPONENTS
-
-
-// COMPONENT
+import { persistor, store } from "./state/stores/AppStore";
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 export const App = () => (
-    <Provider store={createAppStore()}>
-        {/*<div className="container">*/}
-        <AppRouter />
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            {/*<div className="container">*/}
+            <AppRouter />
+        </PersistGate>
         {/*</div>*/}
     </Provider>
 );

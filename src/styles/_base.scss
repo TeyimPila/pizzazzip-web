@@ -21,5 +21,17 @@ body {
  }
 
  .navbar {
-     border-bottom: 4px solid dodgerblue; 
+     border-bottom: 4px solid dodgerblue;
  }
+
+.ui.table tr th {
+  border-top: 0 !important;
+}
+
+.ui.table tr td {
+  border-top: 0 !important;
+}
+
+.ui.basic.table tbody tr {
+  border-bottom: 0 !important;
+}

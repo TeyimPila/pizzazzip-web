@@ -1,14 +1,12 @@
 import React from 'react'
-import {  Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Image } from 'semantic-ui-react'
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 
-const ProductCard = ({ product}) => {
-    const history = useHistory();
-    const { id, name, ingredients, type} = product;
+const ProductCard = ({ product, onClick }) => {
+    const { name, ingredients } = product;
 
     return (
-        <Card raised={true} onClick={() => history.replace(`/builder/${id}?type=${type}`) }>
+        <Card raised={true} onClick={() => onClick(product)}>
             <div className="card-image">
                 <Image src={'https://via.placeholder.com/400.png'} alt={name} />
             </div>
@@ -16,7 +14,8 @@ const ProductCard = ({ product}) => {
                 <Card.Header>{name}</Card.Header>
                 {ingredients.length > 0 && (
                     <Card.Meta>
-                        <span className="date">Contains, {ingredients.map(ingredient => ingredient.name).join(', ')}</span>
+                        <span
+                            className="date">Contains, {ingredients.map(ingredient => ingredient.name).join(', ')}</span>
                     </Card.Meta>
                 )}
             </Card.Content>
@@ -28,7 +27,8 @@ const ProductCard = ({ product}) => {
 }
 
 ProductCard.propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default ProductCard

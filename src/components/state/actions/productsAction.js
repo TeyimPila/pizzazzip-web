@@ -6,3 +6,8 @@ export const fetchProducts = () =>
 
 export const fetchProduct = (id) =>
     asyncRequest(Types.FETCH_PRODUCT, `products/${id}`, 'get');
+
+export const setProduct = (product) => ({
+    type: Types.SET_PRODUCT,
+    payload: product
+});

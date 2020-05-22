@@ -5,6 +5,7 @@ import { HomePage } from '../pages/HomePage/HomePage';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
 import ShopPage from '../pages/ShopPage/ShopPage';
 import BuilderPage from "../pages/BuilderPage/BuilderPage";
+import CartPage from "../pages/CartPage/CartPage";
 
 export const AppRouter = () => (
     <BrowserRouter>
@@ -15,6 +16,7 @@ export const AppRouter = () => (
                     <Switch>
                         <Route path="/" component={HomePage} exact={true} />
                         <Route exact={true} path="/shop" component={ShopPage} />
+                        <Route exact={true} path="/cart" component={CartPage} />
                         <Route exact path="/builder/:id" component={BuilderPage} />
                         <Route exact path="/about" component={AboutPage} />
                         <Redirect to="/" />

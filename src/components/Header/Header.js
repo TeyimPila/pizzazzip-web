@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 // COMPONENT
 
 export const Header = () => (
-    <nav className="navbar navbar-expand-lg navbar-light alert-dark" style={{padding: '20px 50px 20px 50px'}}>
+    <nav className="navbar navbar-expand-lg navbar-light alert-dark" style={{ padding: '20px 50px 20px 50px' }}>
         <a className="navbar-brand" href="/">
             PIZZAZZIP
         </a>
@@ -33,14 +33,13 @@ export const Header = () => (
                     <div className="nav-link">
                         <NavLink to="/cart" activeClassName="menu selected">
                             <span>
-                                <i className="fas fa-shopping-cart fa-2x"/><sup className="badge badge-danger rounded-circle">5</sup>
+                                <i className="fas fa-shopping-cart fa-2x" />
+                                <sup className="badge badge-danger rounded-circle">5</sup>
                             </span>
                         </NavLink>
                     </div>
                 </li>
             </ul>
         </div>
-
-
     </nav>
 );
