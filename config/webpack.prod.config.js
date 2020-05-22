@@ -9,6 +9,8 @@ const config = {
     },
     devServer: {
         historyApiFallback: true,
+        contentBase: './',
+        hot: true
     },
     plugins: [
         new UglifyJsWebpackPlugin({
