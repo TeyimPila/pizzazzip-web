@@ -19,7 +19,8 @@
     "lint:fix": "eslint . --fix; exit 0",
     "start": "npm run serve:dev",
     "test": "echo \"No tests available\"; exit 0",
-    "webpack-defaults": "webpack-defaults"
+    "webpack-defaults": "webpack-defaults",
+    "heroku-postbuild": "webpack --env.env=prod"
   },
   "repository": {
     "type": "git",
