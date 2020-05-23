@@ -20,7 +20,7 @@
     "serve:prod": "npm run build:prod && live-server ./public",
     "lint": "eslint .; exit 0",
     "lint:fix": "eslint . --fix; exit 0",
-    "start": "npm run serve:dev",
+    "start": "npm run serve:prod",
     "test": "echo \"No tests available\"; exit 0",
     "webpack-defaults": "webpack-defaults"
   },
