@@ -2,8 +2,11 @@ export default {
     // API Actions
     FETCH_PRODUCTS: 'FETCH_PRODUCTS',
     FETCH_PRODUCT: 'FETCH_PRODUCT',
+    SUBMIT_ORDER: 'SUBMIT_ORDER',
 
     // Redux actions
     SET_PRODUCT: 'SET_PRODUCT',
     ADD_TO_CART: 'ADD_TO_CART',
+    EMPTY_CART: 'EMPTY_CART',
+    DELETE_CART_ITEM: 'DELETE_CART_ITEM',
 };
