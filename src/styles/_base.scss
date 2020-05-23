@@ -1,28 +1,32 @@
 body {
-    background-color: white;
-    font-family: $font-family;
+  background-color: white;
+  font-family: $font-family;
 }
 
 .animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
- }
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
 
 @keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
- }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
- .fadeIn {
-    -webkit-animation-name: fadeIn;
-    animation-name: fadeIn;
- }
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
 
- .navbar {
-     border-bottom: 4px solid dodgerblue;
- }
+.navbar {
+  border-bottom: 4px solid dodgerblue;
+}
 
 .ui.table tr th {
   border-top: 0 !important;
@@ -34,4 +38,11 @@ body {
 
 .ui.basic.table tbody tr {
   border-bottom: 0 !important;
+}
+
+#page-content {
+  padding: 50px 50px 10px 50px;
+  @media (max-width: 600px) {
+    padding: 10px 10px 10px 10px;
+  }
 }
