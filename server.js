@@ -8,8 +8,8 @@ app.use(express.static(__dirname));
 
 // send the user to index html page inspite of the url
 app.get('*', function (request, response){
-    response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
+    response.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
-console.log("server started on port " + port)
+console.log('server started on port ' + port);
 app.listen(port);

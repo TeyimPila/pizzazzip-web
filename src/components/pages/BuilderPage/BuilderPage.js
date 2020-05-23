@@ -6,8 +6,8 @@ import { LoadingIndicator } from '../../shared/LoadingIndicator/LoadingIndicator
 import { Error } from '../../shared/Error/Error';
 import { fetchProducts } from '../../state/actions/productsAction';
 import { addToCart } from '../../state/actions/cartActions';
-import { Button, Divider, Grid, Header, Image, List } from "semantic-ui-react";
-import { find } from 'lodash'
+import { Button, Divider, Grid, Header, Image, List } from 'semantic-ui-react';
+import { find } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 class BuilderPage extends Component {
@@ -23,7 +23,7 @@ class BuilderPage extends Component {
             },
             toppings: [],
             totalPrice: selectedProduct.unitPrice
-        }
+        };
     }
 
     componentDidMount() {
@@ -32,31 +32,31 @@ class BuilderPage extends Component {
             this.props.fetchProducts();
         }
 
-        this.setState({ toppings })
+        this.setState({ toppings });
     }
 
     addToCardHandler = () => {
         const { toppings, orderItem, totalPrice } = this.state;
-        const addedToppings = toppings.filter(({ quantity }) => quantity >= 1)
-        const fullOrderItem = { ...orderItem, toppings: addedToppings, orderItemTotal: totalPrice, uuid: uuidv4() }
+        const addedToppings = toppings.filter(({ quantity }) => quantity >= 1);
+        const fullOrderItem = { ...orderItem, toppings: addedToppings, orderItemTotal: totalPrice, uuid: uuidv4() };
         this.props.addToCart(fullOrderItem);
-        this.props.history.go(0)
+        this.props.history.go(0);
     }
 
     viewCart = () => {
-        this.props.history.replace(`/cart`)
+        this.props.history.replace('/cart');
     }
 
     toppingAddHandler = ({ id, unitPrice }, offSet) => {
         const toppings = Object.assign([], this.state.toppings);
-        const topping = find(toppings, { id })
-        topping.quantity = topping.quantity !== undefined ? topping.quantity + offSet : offSet
+        const topping = find(toppings, { id });
+        topping.quantity = topping.quantity !== undefined ? topping.quantity + offSet : offSet;
 
         this.setState((prevState) => ({
             ...prevState,
             toppings,
             totalPrice: prevState.totalPrice + (unitPrice * prevState.orderItem.quantity * offSet)
-        }))
+        }));
     }
 
     handleOverallQuantity = (offSet) => {
@@ -68,7 +68,7 @@ class BuilderPage extends Component {
                 quantity: prevState.orderItem.quantity + offSet,
             },
             totalPrice: prevState.totalPrice + (prevState.totalPrice * (offSet / prevState.orderItem.quantity))
-        }))
+        }));
     }
 
     //TODO: Move to own component
@@ -90,17 +90,14 @@ class BuilderPage extends Component {
 
                 </List.Content>
             </List.Item>
-        )
+        );
     }
 
     render() {
 
-        const { loading, failed, productLoaded, selectedProduct } = this.props;
+        const { loading, failed, selectedProduct, productLoaded } = this.props;
 
-        console.log('The product', selectedProduct)
-        console.log('The loaded', productLoaded)
-
-        if (loading) {
+        if (loading || !productLoaded) {
             return <LoadingIndicator busy={loading} />;
         }
 
@@ -206,7 +203,7 @@ BuilderPage.propTypes = {
 
 
 const mapStateToProps = state => {
-    console.log('The cart', state.cart)
+    console.log('The cart', state.cart);
     const { loading, failed, toppings, selectedProduct, productLoaded } = state.products;
     return { loading, failed, productLoaded, toppings, selectedProduct };
 };

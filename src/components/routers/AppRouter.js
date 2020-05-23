@@ -4,8 +4,8 @@ import { Header } from '../Header/Header';
 import { HomePage } from '../pages/HomePage/HomePage';
 import { AboutPage } from '../pages/AboutPage/AboutPage';
 import ShopPage from '../pages/ShopPage/ShopPage';
-import BuilderPage from "../pages/BuilderPage/BuilderPage";
-import CartPage from "../pages/CartPage/CartPage";
+import BuilderPage from '../pages/BuilderPage/BuilderPage';
+import CartPage from '../pages/CartPage/CartPage';
 
 export const AppRouter = () => (
     <BrowserRouter>

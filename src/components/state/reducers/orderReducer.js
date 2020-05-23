@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
         case asyncActionNames(Types.SUBMIT_ORDER).success: {
             const { data } = action.payload;
 
-            console.log('order items', data)
+            console.log('order items', data);
             return {
                 ...state,
                 orders: [

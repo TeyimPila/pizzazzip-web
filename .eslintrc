@@ -21,11 +21,11 @@
         "no-console": "off",
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "quotes": [
-            "off", //TODO: change to error
+            "error",
             "single"
         ],
         "semi": [
-            "off", //TODO: change to error
+            "error",
             "always"
         ]
     }

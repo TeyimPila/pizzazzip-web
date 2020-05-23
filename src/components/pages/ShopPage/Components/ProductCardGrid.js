@@ -1,20 +1,20 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import ProductCard from './ProductCard'
-import { bindActionCreators } from "redux";
-import { setProduct } from "../../../state/actions/productsAction";
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import ProductCard from './ProductCard';
+import { bindActionCreators } from 'redux';
+import { setProduct } from '../../../state/actions/productsAction';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const ProductCardGrid = ({ products, setProduct }) => {
     const history = useHistory();
 
     const handleProductClick = (product) => {
         const { id, type } = product;
-        setProduct({ product })
-        history.replace(`/builder/${id}?type=${type}`)
-    }
+        setProduct({ product });
+        history.replace(`/builder/${id}?type=${type}`);
+    };
     return (
         <Card.Group stackable={true}>
             {products.map((product, i) =>

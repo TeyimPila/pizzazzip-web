@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteCartItem, emptyCart } from '../../state/actions/cartActions';
 import { submitOrder } from '../../state/actions/orderActions';
-import { Button, Divider, Form, Grid, Header, Image, Table } from "semantic-ui-react";
-import { remove, set } from "lodash";
-import { bindActionCreators } from "redux";
+import { Button, Divider, Form, Grid, Header, Image, Table } from 'semantic-ui-react';
+import { remove, set } from 'lodash';
+import { bindActionCreators } from 'redux';
 
 class CartPage extends Component {
 
@@ -28,31 +28,31 @@ class CartPage extends Component {
                 zipCode: '',
             },
             orderNote: '',
-        }
+        };
     }
 
     cartEmptyHandler = () => {
         this.props.emptyCart();
-        this.setState({ cart: { orderItems: [] } })
-        this.props.history.replace(`/shop`)
+        this.setState({ cart: { orderItems: [] } });
+        this.props.history.replace('/shop');
     }
 
     formFieldChangeHandler = (e, { name, value }) => {
         const state = Object.assign({}, this.state);
-        this.setState({ ...set(state, name, value) })
+        this.setState({ ...set(state, name, value) });
     }
 
     itemDeleteHandler = (uuid) => {
         const cart = Object.assign({}, this.state.cart);
-        remove(cart.orderItems, { uuid })
+        remove(cart.orderItems, { uuid });
 
-        this.setState({ cart })
+        this.setState({ cart });
         this.props.deleteCartItem(uuid);
     }
 
     orderSubmitHandler = () => {
         const { cart, userDetails, deliveryAddress, orderNote } = this.state;
-        this.props.submitOrder({ ...cart, userDetails, deliveryAddress, orderNote })
+        this.props.submitOrder({ ...cart, userDetails, deliveryAddress, orderNote });
 
         // this.props.emptyCart();
     }
@@ -78,7 +78,7 @@ class CartPage extends Component {
                 </Table.Cell>
                 <Table.Cell>{orderItemTotal}</Table.Cell>
             </Table.Row>
-        )
+        );
     }
 
     render() {
@@ -90,12 +90,12 @@ class CartPage extends Component {
             orderNote
         } = this.state;
 
-        const cartTotal = orderItems.reduce((total, orderItem) => total + (orderItem.orderItemTotal), 0)
+        const cartTotal = orderItems.reduce((total, orderItem) => total + (orderItem.orderItemTotal), 0);
         const shipping = .05 * cartTotal;
 
         const cartIsEmpty = orderItems.length === 0;
 
-        console.log("The state", this.state)
+        console.log('The state', this.state);
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>

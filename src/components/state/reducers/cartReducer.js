@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
         }
         case Types.DELETE_CART_ITEM: {
             const orderItems = Object.assign([], state.orderItems);
-            remove(orderItems, { uuid: action.payload })
+            remove(orderItems, { uuid: action.payload });
             return { ...state, orderItems };
         }
         default:

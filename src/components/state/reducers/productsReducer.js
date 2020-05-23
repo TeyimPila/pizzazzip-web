@@ -1,6 +1,6 @@
 import { asyncActionNames } from '../actionCreator/ActionCreator';
 import Types from '../actions/ActionTypes';
-import { filter } from 'lodash'
+import { filter } from 'lodash';
 
 export const initialState = {
     products: [],

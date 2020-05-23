@@ -1,6 +1,5 @@
 const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
-const commonPaths = require('./common-paths');
 
 const config = {
     devtool: 'source-map',
