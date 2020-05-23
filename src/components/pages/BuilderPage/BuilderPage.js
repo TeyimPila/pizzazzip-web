@@ -1,17 +1,14 @@
-// IMPORT PACKAGE REFERENCES
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { fetchZipCodes } from '../../state/actions/ZipCodeActions';
-// import { ZipCodeList } from './Components/ZipCodeList';
 import { LoadingIndicator } from '../../shared/LoadingIndicator/LoadingIndicator';
 import { Error } from '../../shared/Error/Error';
 import { fetchProducts } from '../../state/actions/productsAction';
 import { addToCart } from '../../state/actions/cartActions';
 import { Button, Divider, Grid, Header, Image, List } from "semantic-ui-react";
 import { find } from 'lodash'
-import uuid from 'react-uuid'
+import { v4 as uuidv4 } from 'uuid';
 
 class BuilderPage extends Component {
 
@@ -41,7 +38,7 @@ class BuilderPage extends Component {
     addToCardHandler = () => {
         const { toppings, orderItem, totalPrice } = this.state;
         const addedToppings = toppings.filter(({ quantity }) => quantity >= 1)
-        const fullOrderItem = { ...orderItem, toppings: addedToppings, orderItemTotal: totalPrice, uuid: uuid() }
+        const fullOrderItem = { ...orderItem, toppings: addedToppings, orderItemTotal: totalPrice, uuid: uuidv4() }
         this.props.addToCart(fullOrderItem);
         this.props.history.go(0)
     }
