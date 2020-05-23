@@ -17,14 +17,13 @@ const ProductCardGrid = ({ products, setProduct }) => {
     }
     return (
         <Card.Group stackable={true}>
-            {/*<p>Hello</p>*/}
             {products.map((product, i) =>
                 <ProductCard
                     key={i}
                     product={product}
                     onClick={handleProductClick}
                 />
-            )};
+            )}
         </Card.Group>
     );
 };
@@ -41,6 +40,3 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default connect(null, mapDispatchToProps)(ProductCardGrid);
-
-
-// export default ProductCardGrid;
