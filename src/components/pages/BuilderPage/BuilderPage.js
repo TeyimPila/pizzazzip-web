@@ -11,6 +11,7 @@ import { fetchProducts } from '../../state/actions/productsAction';
 import { addToCart } from '../../state/actions/cartActions';
 import { Button, Divider, Grid, Header, Image, List } from "semantic-ui-react";
 import { find } from 'lodash'
+import uuid from 'react-uuid'
 
 class BuilderPage extends Component {
 
@@ -21,7 +22,6 @@ class BuilderPage extends Component {
         this.state = {
             orderItem: {
                 ...selectedProduct,
-                extraToppings: [],
                 quantity: 1,
             },
             toppings: [],
@@ -39,7 +39,15 @@ class BuilderPage extends Component {
     }
 
     addToCardHandler = () => {
-        this.props.addToCart(this.state.orderItem);
+        const { toppings, orderItem, totalPrice } = this.state;
+        const addedToppings = toppings.filter(({ quantity }) => quantity >= 1)
+        const fullOrderItem = { ...orderItem, toppings: addedToppings, orderItemTotal: totalPrice, uuid: uuid() }
+        this.props.addToCart(fullOrderItem);
+        this.props.history.go(0)
+    }
+
+    viewCart = () => {
+        this.props.history.replace(`/cart`)
     }
 
     toppingAddHandler = ({ id, unitPrice }, offSet) => {
@@ -79,7 +87,7 @@ class BuilderPage extends Component {
                         <Button
                             icon="minus" disabled={!topping.quantity} onClick={() => onSubtract(topping, -1)} basic
                             color="red" />
-                        <Button disabled>{topping.quantity || 0}</Button>
+                        <Button disabled basic size={'small'}>{topping.quantity || 0}</Button>
                         <Button icon="plus" onClick={() => onAdd(topping, 1)} basic color="green" />
                     </Button.Group>
 
@@ -110,7 +118,7 @@ class BuilderPage extends Component {
             <Grid columns={2} stackable centered>
                 <Grid.Row centered>
                     <Grid.Column>
-                        <Image src={'https://via.placeholder.com/720.png'} alt={name} />
+                        <Image src={'https://via.placeholder.com/550.png'} alt={name} />
                         <span className="date">{description}</span>
                         {ingredients.length > 0 && (
                             <span style={{ color: 'gray' }}>
@@ -120,7 +128,23 @@ class BuilderPage extends Component {
                         <Header>{name} ($2.35)</Header>
                     </Grid.Column>
                     <Grid.Column style={{ height: '100%', position: 'relative' }}>
-                        <Header as={'h2'}>Add extra topping</Header>
+                        <Grid.Row>
+                            <Grid.Column width={11}>
+                                <Header as={'h2'}>Add extra topping</Header>
+                            </Grid.Column>
+                            <Grid.Column floated={'right'} width={3}>
+                                <Button
+                                    onClick={() => this.viewCart()}
+                                    color="green" size="small"
+                                    style={{ width: '100%' }}
+                                    basic
+                                >
+                                    Cart <i className={'fa fa-external-link-alt'} />
+                                </Button>
+                            </Grid.Column>
+
+                        </Grid.Row>
+
                         <Divider style={{ width: '95%' }} />
 
                         <List verticalAlign="middle">
@@ -138,14 +162,14 @@ class BuilderPage extends Component {
                             )}
                         </List>
 
-                        <Grid columns={2} style={{ left: 15, right: 15, position: 'absolute', bottom: 0 }} stackable>
+                        <Grid columns={2} style={{ marginTop: 100 }} stackable>
                             <Grid.Column width={2} floated="left">
                                 <Button.Group style={{ width: '100%' }}>
                                     <Button
                                         disabled={quantity <= 1}
-                                        icon="minus" size="large" basic color="red"
+                                        icon="minus" size="small" basic color="red"
                                         onClick={() => this.handleOverallQuantity(-1)} />
-                                    <Button disabled size="large">{quantity}</Button>
+                                    <Button disabled basic size="small">{quantity}</Button>
                                     <Button
                                         icon="plus" size="large" basic color="green"
                                         onClick={() => this.handleOverallQuantity(1)} />
@@ -163,7 +187,6 @@ class BuilderPage extends Component {
                             </Grid.Column>
                         </Grid>
 
-                        {/*</Segment>*/}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -180,6 +203,7 @@ BuilderPage.propTypes = {
     toppings: PropTypes.array.isRequired,
     match: PropTypes.object,
     location: PropTypes.object,
+    history: PropTypes.any,
     selectedProduct: PropTypes.object,
 };
 
