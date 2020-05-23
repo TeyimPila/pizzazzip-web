@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { fetchZipCodes } from '../../state/actions/ZipCodeActions';
-// import { ZipCodeList } from './Components/ZipCodeList';
-import { Button, Grid, Header, Image, Table } from "semantic-ui-react";
+import { deleteCartItem, emptyCart } from '../../state/actions/cartActions';
+import { submitOrder } from '../../state/actions/orderActions';
+import { Button, Divider, Form, Grid, Header, Image, Table } from "semantic-ui-react";
+import { remove, set } from "lodash";
+import { bindActionCreators } from "redux";
 
 class CartPage extends Component {
 
@@ -12,72 +14,102 @@ class CartPage extends Component {
         super(props);
 
         const { cart } = this.props;
-        this.state = { cart }
+        this.state = {
+            cart,
+            userDetails: {
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+            },
+            deliveryAddress: {
+                addressLine1: '',
+                addressLine2: '',
+                zipCode: '',
+            },
+            orderNote: '',
+        }
     }
 
-    // addToCardHandler = () => {
-    //     this.props.addToCart(this.state.orderItem);
-    // }
-    //
-    // toppingAddHandler = ({ id, unitPrice }, offSet) => {
-    //     const toppings = Object.assign([], this.state.toppings);
-    //     const topping = find(toppings, { id })
-    //     topping.quantity = topping.quantity !== undefined ? topping.quantity + offSet : offSet
-    //
-    //     this.setState((prevState) => ({
-    //         ...prevState,
-    //         toppings,
-    //         totalPrice: prevState.totalPrice + (unitPrice * prevState.orderItem.quantity * offSet)
-    //     }))
-    // }
+    cartEmptyHandler = () => {
+        this.props.emptyCart();
+        this.setState({ cart: { orderItems: [] } })
+        this.props.history.replace(`/shop`)
+    }
+
+    formFieldChangeHandler = (e, { name, value }) => {
+        const state = Object.assign({}, this.state);
+        this.setState({ ...set(state, name, value) })
+    }
+
+    itemDeleteHandler = (uuid) => {
+        const cart = Object.assign({}, this.state.cart);
+        remove(cart.orderItems, { uuid })
+
+        this.setState({ cart })
+        this.props.deleteCartItem(uuid);
+    }
+
+    orderSubmitHandler = () => {
+        const { cart, userDetails, deliveryAddress, orderNote } = this.state;
+        this.props.submitOrder({ ...cart, userDetails, deliveryAddress, orderNote })
+
+        // this.props.emptyCart();
+    }
 
     //TODO: Move to own component
-    renderOrderItem = ({ orderItem, onAdd, onSubtract }) => {
-        const { id, name, unitPrice, quantity } = orderItem;
+    renderOrderItem = ({ orderItem, onDelete }) => {
+        const { name, orderItemTotal, quantity, uuid, toppings } = orderItem;
 
         return (
-            <Table.Row key={id} textAlign="center">
-                {/*<Table.Cell ><Button basic>x</Button></Table.Cell>*/}
-                <Table.Cell>
-                    <Button basic className={'no-border'}>x</Button>
-                    <Image avatar src="https://via.placeholder.com/50.png" />
-                </Table.Cell>
-                <Table.Cell>{name}</Table.Cell>
-                <Table.Cell>{unitPrice}</Table.Cell>
+            <Table.Row key={uuid}>
                 <Table.Cell>
                     <Button.Group>
-                        <Button
-                            disabled={quantity <= 1} onClick={() => onSubtract(orderItem, -1)} basic
-                        >-</Button>
-                        <Button disabled>{quantity || 0}</Button>
-                        <Button onClick={() => onAdd(orderItem, 1)} basic>+</Button>
+                        <Button onClick={() => onDelete(uuid)} basic>x</Button>
                     </Button.Group>
+                    <Image avatar src="https://via.placeholder.com/60.png" />
                 </Table.Cell>
-                <Table.Cell>{unitPrice * quantity}</Table.Cell>
+                <Table.Cell>
+                    <Header as={'h4'}>{name}</Header>
+                    <div>{toppings.length > 0 && `With: ${toppings.map(({ quantity, name }) => `${quantity}x ${name}`).join(', ')}`}</div>
+                </Table.Cell>
+                <Table.Cell>
+                    {quantity || 0}
+                </Table.Cell>
+                <Table.Cell>{orderItemTotal}</Table.Cell>
             </Table.Row>
-
         )
     }
 
     render() {
 
-        const { cart: { orderItems } } = this.state;
+        const {
+            cart: { orderItems },
+            userDetails: { firstName, email, phone, lastName },
+            deliveryAddress: { addressLine1, addressLine2, zipCode },
+            orderNote
+        } = this.state;
 
+        const cartTotal = orderItems.reduce((total, orderItem) => total + (orderItem.orderItemTotal), 0)
+        const shipping = .05 * cartTotal;
+
+        const cartIsEmpty = orderItems.length === 0;
+
+        console.log("The state", this.state)
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>
                     <Grid.Column width={8}>
-                        <Grid>
+                        <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Your Food Basket</Header>
                             </Grid.Row>
-                            <Grid.Row>
-                                <Table unstackable className="ui very basic table" padded="very">
+                            <Grid.Row centered>
+                                <Table unstackable className="ui very basic table" padded="very" collapsing>
                                     <Table.Header>
-                                        <Table.Row textAlign="center">
+                                        <Table.Row>
                                             <Table.HeaderCell />
                                             <Table.HeaderCell>Food Item</Table.HeaderCell>
-                                            <Table.HeaderCell>Unit Price</Table.HeaderCell>
                                             <Table.HeaderCell>Quantity</Table.HeaderCell>
                                             <Table.HeaderCell>Subtotal</Table.HeaderCell>
                                         </Table.Row>
@@ -87,31 +119,122 @@ class CartPage extends Component {
                                         {orderItems.map((orderItem) => this.renderOrderItem(
                                             {
                                                 orderItem,
-                                                onAdd: this.toppingAddHandler,
-                                                onSubtract: this.toppingAddHandler
+                                                onDelete: this.itemDeleteHandler,
                                             })
                                         )}
-                                        <Table.Row textAlign="center">
-
-                                            <Table.Cell />
+                                        <Table.Row>
                                             <Table.Cell />
                                             <Table.Cell />
                                             <Table.Cell>Shipping</Table.Cell>
-                                            <Table.Cell>200</Table.Cell>
+                                            <Table.Cell>{shipping}</Table.Cell>
                                         </Table.Row>
-                                        <Table.Row textAlign="center">
+                                        <Table.Row>
                                             <Table.Cell />
                                             <Table.Cell>
-                                                <Button color={'red'} basic>Empty Basket</Button>
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                <Button color={'green'} basic>Proceed to Checkout</Button>
+                                                <Button color={'red'} basic onClick={() => this.cartEmptyHandler()}>Empty
+                                                    Basket</Button>
                                             </Table.Cell>
                                             <Table.Cell>Total</Table.Cell>
-                                            <Table.Cell>200</Table.Cell>
+                                            <Table.Cell>{cartTotal + shipping}</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                 </Table>
+                            </Grid.Row>
+                        </Grid>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        <Grid centered>
+                            <Grid.Row centered>
+                                <Header as={'h1'}>Checkout Details</Header>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column>
+                                    <Header>Contact Details</Header>
+                                    <Divider style={{ width: '15%' }} />
+                                    <Form>
+                                        <Form.Group widths="equal">
+                                            <Form.Input
+                                                required
+                                                label="First name"
+                                                placeholder="First name"
+                                                name="userDetails.firstName"
+                                                value={firstName}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                            <Form.Input
+                                                required
+                                                label="Last name"
+                                                placeholder="Last name"
+                                                name="userDetails.lastName"
+                                                value={lastName}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group widths="equal">
+                                            <Form.Input
+                                                required
+                                                label="Email"
+                                                placeholder="john.doe@email.com"
+                                                type="email"
+                                                name="userDetails.email"
+                                                value={email}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                            <Form.Input
+                                                required
+                                                label="Phone"
+                                                placeholder="+xxx xxxx xxxx"
+                                                name="userDetails.phone"
+                                                value={phone}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                        </Form.Group>
+
+                                        <Header>Delivery Details</Header>
+                                        <Divider style={{ width: '15%' }} />
+                                        <Form.Group widths="equal">
+                                            <Form.Input
+                                                required
+                                                label="Address Line 1"
+                                                placeholder="Street + House Number"
+                                                name="deliveryAddress.addressLine1"
+                                                value={addressLine1}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                            <Form.Input
+                                                required
+                                                label="Address Line 2"
+                                                placeholder="Address Line 2"
+                                                name="deliveryAddress.addressLine2"
+                                                value={addressLine2}
+                                                onChange={this.formFieldChangeHandler}
+                                            />
+                                        </Form.Group>
+                                        <Form.Input
+                                            required
+                                            label="Zip Code"
+                                            placeholder="Zip Code"
+                                            name="deliveryAddress.zipCode"
+                                            value={zipCode}
+                                            onChange={this.formFieldChangeHandler}
+                                        />
+
+                                        <Form.TextArea
+                                            label="Order Note"
+                                            placeholder="E.g. Call ring the bell when you get here"
+                                            name="orderNote"
+                                            value={orderNote}
+                                            onChange={this.formFieldChangeHandler}
+                                        />
+
+                                        <Form.Button
+                                            disabled={cartIsEmpty}
+                                            color={'green'}
+                                            onClick={this.orderSubmitHandler}
+                                            basic
+                                            content="Place Order" />
+                                    </Form>
+                                </Grid.Column>
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
@@ -123,20 +246,24 @@ class CartPage extends Component {
 
 CartPage.propTypes = {
     cart: PropTypes.object.isRequired,
+    emptyCart: PropTypes.func.isRequired,
+    history: PropTypes.any.isRequired,
+    deleteCartItem: PropTypes.func.isRequired,
+    submitOrder: PropTypes.func.isRequired,
 };
-
 
 const mapStateToProps = state => {
     const { cart } = state;
     return { cart };
 };
 
-// const mapDispatchToProps = dispatch => (
-//     bindActionCreators({
-//         fetchProducts,
-//         addToCart
-//     }, dispatch)
-// );
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        emptyCart,
+        deleteCartItem,
+        submitOrder,
+    }, dispatch)
+);
 
-export default connect(mapStateToProps, null)(CartPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 
