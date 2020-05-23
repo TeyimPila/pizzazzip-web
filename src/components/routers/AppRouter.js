@@ -12,7 +12,7 @@ export const AppRouter = () => (
         <Fragment>
             <HashRouter>
                 <Header />
-                <div style={{ padding: '50px 50px 0 50px' }}>
+                <div id={'page-content'}>
                     <Switch>
                         <Route path="/" component={HomePage} exact={true} />
                         <Route exact={true} path="/shop" component={ShopPage} />
