@@ -10,11 +10,15 @@ import { useHistory } from 'react-router-dom';
 const ProductCardGrid = ({ products, setProduct }) => {
     const history = useHistory();
 
+    /**
+     * Handles click on any given menu item
+     * @param product
+     */
     const handleProductClick = (product) => {
-        const { id, type } = product;
         setProduct({ product });
-        history.replace(`/builder/${id}?type=${type}`);
+        history.replace('/builder');
     };
+
     return (
         <Card.Group stackable={true}>
             {products.map((product, i) =>

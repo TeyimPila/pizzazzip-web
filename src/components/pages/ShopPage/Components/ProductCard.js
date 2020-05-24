@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 const ProductCard = ({ product, onClick }) => {
     const { name, ingredients } = product;
@@ -12,7 +13,7 @@ const ProductCard = ({ product, onClick }) => {
             </div>
             <Card.Content>
                 <Card.Header>{name}</Card.Header>
-                {ingredients.length > 0 && (
+                {!isEmpty(ingredients) > 0 && (
                     <Card.Meta>
                         <span
                             className="date">Contains, {ingredients.map(ingredient => ingredient.name).join(', ')}</span>

@@ -7,8 +7,9 @@ import { Error } from '../../shared/Error/Error';
 import { fetchProducts } from '../../state/actions/productsAction';
 import { addToCart } from '../../state/actions/cartActions';
 import { Button, Divider, Grid, Header, Image, List } from 'semantic-ui-react';
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import ToppingListItem from './Components/ToppingListItem';
 
 class BuilderPage extends Component {
 
@@ -28,6 +29,7 @@ class BuilderPage extends Component {
 
     componentDidMount() {
         const { toppings, selectedProduct: { type } } = this.props;
+
         if (type === 'pizza') {
             this.props.fetchProducts();
         }
@@ -35,6 +37,9 @@ class BuilderPage extends Component {
         this.setState({ toppings });
     }
 
+    /**
+     * Handles the addition of new items to cart.
+     */
     addToCardHandler = () => {
         const { toppings, orderItem, totalPrice } = this.state;
         const addedToppings = toppings.filter(({ quantity }) => quantity >= 1);
@@ -47,7 +52,13 @@ class BuilderPage extends Component {
         this.props.history.replace('/cart');
     }
 
-    toppingAddHandler = ({ id, unitPrice }, offSet) => {
+    /**
+     * Handles changes to the quantity of toppings
+     * @param id
+     * @param unitPrice: unit price of item
+     * @param offSet: -1 or 1, referring to increase or decrease
+     */
+    toppingQuantityChangeHandler = ({ id, unitPrice }, offSet) => {
         const toppings = Object.assign([], this.state.toppings);
         const topping = find(toppings, { id });
         topping.quantity = topping.quantity !== undefined ? topping.quantity + offSet : offSet;
@@ -59,7 +70,11 @@ class BuilderPage extends Component {
         }));
     }
 
-    handleOverallQuantity = (offSet) => {
+    /**
+     * Adjusts the quantity of current order Item.
+     * @param offSet: -1 oor 1, referring to increase or decrease
+     */
+    overallQuantityChangeHandler = (offSet) => {
 
         this.setState((prevState) => ({
             ...prevState,
@@ -71,33 +86,12 @@ class BuilderPage extends Component {
         }));
     }
 
-    //TODO: Move to own component
-    renderTopping = ({ topping, onAdd, onSubtract }) => {
-
-        return (
-            <List.Item key={topping.id}>
-                <Image avatar src="https://via.placeholder.com/50.png" />
-                <List.Content>{topping.name} (${topping.unitPrice})</List.Content>
-                {/*<List.Content>{topping.times || 0}</List.Content>*/}
-                <List.Content floated="right">
-                    <Button.Group>
-                        <Button
-                            icon="minus" disabled={!topping.quantity} onClick={() => onSubtract(topping, -1)} basic
-                            color="red" />
-                        <Button disabled basic size={'small'}>{topping.quantity || 0}</Button>
-                        <Button icon="plus" onClick={() => onAdd(topping, 1)} basic color="green" />
-                    </Button.Group>
-
-                </List.Content>
-            </List.Item>
-        );
-    }
 
     render() {
 
-        const { loading, failed, selectedProduct, productLoaded } = this.props;
+        const { loading, failed, selectedProduct } = this.props;
 
-        if (loading || !productLoaded) {
+        if (loading) {
             return <LoadingIndicator busy={loading} />;
         }
 
@@ -105,7 +99,7 @@ class BuilderPage extends Component {
             return <Error message="Failed to fetch list of zip codes" />;
         }
 
-        const { description, ingredients, name, unitPrice, id } = selectedProduct;
+        const { description, ingredients, name, unitPrice, id, type } = selectedProduct;
         const { orderItem: { quantity }, toppings, totalPrice } = this.state;
 
         return (
@@ -114,7 +108,7 @@ class BuilderPage extends Component {
                     <Grid.Column>
                         <Image src={'https://via.placeholder.com/550.png'} alt={name} />
                         <span className="date">{description}</span>
-                        {ingredients.length > 0 && (
+                        {!isEmpty(ingredients) > 0 && (
                             <span style={{ color: 'gray' }}>
                                     Contains: {ingredients.map(ingredient => ingredient.name).join(', ')}
                             </span>
@@ -124,7 +118,9 @@ class BuilderPage extends Component {
                     <Grid.Column style={{ height: '100%', position: 'relative' }}>
                         <Grid.Row>
                             <Grid.Column width={11}>
-                                <Header as={'h2'}>Add extra topping</Header>
+                                <Header as={'h2'}>
+                                    {type === 'pizza' ? 'Add extra topping' : 'How many drinks? Don\'t be shy'}
+                                </Header>
                             </Grid.Column>
                             <Grid.Column floated={'right'} width={3}>
                                 <Button
@@ -147,12 +143,13 @@ class BuilderPage extends Component {
                                 <List.Content>{name} (${unitPrice})</List.Content>
                                 <Button disabled size="large" floated="right">{quantity}</Button>
                             </List.Item>
-                            {toppings.map((topping) => this.renderTopping(
-                                {
-                                    topping,
-                                    onAdd: this.toppingAddHandler,
-                                    onSubtract: this.toppingAddHandler
-                                })
+                            {type === 'pizza' && toppings.map((topping) =>
+                                <ToppingListItem
+                                    key={topping.id}
+                                    topping={topping}
+                                    onAdd={this.toppingQuantityChangeHandler}
+                                    onSubtract={this.toppingQuantityChangeHandler}
+                                />
                             )}
                         </List>
 
@@ -162,11 +159,11 @@ class BuilderPage extends Component {
                                     <Button
                                         disabled={quantity <= 1}
                                         icon="minus" size="small" basic color="red"
-                                        onClick={() => this.handleOverallQuantity(-1)} />
+                                        onClick={() => this.overallQuantityChangeHandler(-1)} />
                                     <Button disabled basic size="small">{quantity}</Button>
                                     <Button
                                         icon="plus" size="large" basic color="green"
-                                        onClick={() => this.handleOverallQuantity(1)} />
+                                        onClick={() => this.overallQuantityChangeHandler(1)} />
                                 </Button.Group>
                             </Grid.Column>
                             <Grid.Column width={11} floated="right">

@@ -1,26 +1,34 @@
 import React from 'react';
+import { Divider } from 'semantic-ui-react';
 
 const AboutPage = () => (
     <main className="p-3 animated fadeIn">
-        <h3>React Redux Starter</h3>
+        <h1 className={'text-center'}>This is pizzAzzip!</h1>
+        <h5 className={'text-center'}>...weird name right? lol. We know!</h5>
 
-        <p>A basic template that consists of the essential elements that are required to start building a Single Page Application using React, React Router, Redux, Bootstrap 4, Sass, and Webpack</p>
+        <Divider section />
 
-        The template consists of:
+        <p>
+            We are without and epitome of doubt, the best pizza delivery shop that ever existed. Such a bold claim
+            you&apos;d
+            say. But why is this? Well, for one simple reason. All orders are free!! But there is a catch, which is,
+            you&apos;d never receive your orders :)
+        </p>
+
+        <Divider section />
+
+        This is our website and it is built using the following:
         <ul>
-            <li>a typcial project layout structure</li>
-            <li>a Babel setup and configuration</li>
-            <li>a Webpack setup and configuration</li>
-            <li>an ESLint setup and configuration</li>
-            <li>a SCSS setup and configuration</li>
-            <li>a sample React component to display list codes</li>
-            <li>a Redux setup to handle zip codes state</li>
-            <li>a React Router setup to show basic navigation</li>
+            <li>ReactJS</li>
+            <li>Redux for state management</li>
+            <li>Semantic UI React for interface design and layout</li>
+            <li>Webpack</li>
+            <li>Babel</li>
+            <li>ESLint to make sure code adheres to standards</li>
+            <li>SCSS for styling</li>
+            <li>React Router for navigation</li>
+            <li>A typical project layout structure</li>
         </ul>
-
-        Additionaly, the template provides a development and production webpack configuration.
-
-        The template also allows one to include specific plugins as part of build.
     </main>
 );
 

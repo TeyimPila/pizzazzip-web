@@ -30,7 +30,6 @@ export const Header = () => (
                         <NavLink to="/cart" activeClassName="menu selected">
                             <span>
                                 <i className="fas fa-shopping-cart fa-2x" />
-                                <sup className="badge badge-danger rounded-circle">5</sup>
                             </span>
                         </NavLink>
                     </div>

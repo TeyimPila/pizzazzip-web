@@ -8,7 +8,7 @@ const composeData = (method, body) =>
 /**
  * Returns a promise for an HTTP request
  * @async
- * @param {string} url - HTTP resource enpoint
+ * @param {string} url - HTTP resource endpoint
  * @param {string} method - HTTP verbs
  * @param {Object} body - HTTP request body
  * @param {string} token - Authentication token

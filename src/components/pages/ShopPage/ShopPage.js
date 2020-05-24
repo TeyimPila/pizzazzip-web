@@ -15,7 +15,7 @@ class ShopPage extends Component {
 
     render() {
 
-        const { loading, failed, productsLoaded, pizzas} = this.props;
+        const { loading, failed, productsLoaded, menu} = this.props;
         let body = null;
 
         if (loading) {
@@ -27,7 +27,7 @@ class ShopPage extends Component {
         }
 
         if (productsLoaded) {
-            body = <ProductCardGrid products={pizzas} />;
+            body = <ProductCardGrid products={menu} />;
         }
 
         return (
@@ -44,12 +44,12 @@ ShopPage.propTypes = {
     failed: PropTypes.bool,
     productsLoaded: PropTypes.bool,
     meta: PropTypes.object,
-    pizzas: PropTypes.array.isRequired
+    menu: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => {
-    const { loading, failed, pizzas, links, productsLoaded, meta } = state.products;
-    return { loading, failed, productsLoaded, pizzas, meta, links };
+    const { loading, failed, menu, links, productsLoaded, meta } = state.products;
+    return { loading, failed, productsLoaded, menu, meta, links };
 };
 
 const mapDispatchToProps = dispatch => (

@@ -20,14 +20,13 @@ export default (state = initialState, action) => {
         }
         case asyncActionNames(Types.FETCH_PRODUCTS).success: {
             const { data, links, meta } = action.payload;
-            const pizzas = filter(data, { type: 'pizza' });
+            const menu = filter(data, obj => (obj.type === 'pizza' || obj.type === 'drink'));
             const toppings = filter(data, { type: 'topping' });
-            const drinks = filter(data, { type: 'drink' });
 
             return {
-                ...state, pizzas,
+                ...state,
+                menu,
                 toppings,
-                drinks,
                 meta,
                 links,
                 loading: false,

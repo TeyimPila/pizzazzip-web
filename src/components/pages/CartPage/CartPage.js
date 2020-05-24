@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteCartItem, emptyCart } from '../../state/actions/cartActions';
 import { submitOrder } from '../../state/actions/orderActions';
-import { Button, Divider, Form, Grid, Header, Image, Table } from 'semantic-ui-react';
+import { Button, Divider, Form, Grid, Header, Table } from 'semantic-ui-react';
 import { remove, set } from 'lodash';
 import { bindActionCreators } from 'redux';
+import OrderItem from './Components/OrderItem';
 
 class CartPage extends Component {
 
@@ -30,17 +31,30 @@ class CartPage extends Component {
         };
     }
 
+    /**
+     * Callback method executed when user empties cart.
+     */
     cartEmptyHandler = () => {
         this.props.emptyCart();
         this.setState({ cart: { orderItems: [] } });
         this.props.history.replace('/shop');
     }
 
+    /**
+     * Callback method for handling changes to form fields.
+     * @param e: event
+     * @param name: field name
+     * @param value: field value
+     */
     formFieldChangeHandler = (e, { name, value }) => {
         const state = Object.assign({}, this.state);
         this.setState({ ...set(state, name, value) });
     }
 
+    /**
+     * Delete a single order item from cart
+     * @param uuid
+     */
     itemDeleteHandler = (uuid) => {
         const cart = Object.assign({}, this.state.cart);
         remove(cart.orderItems, { uuid });
@@ -49,35 +63,14 @@ class CartPage extends Component {
         this.props.deleteCartItem(uuid);
     }
 
+    /**
+     * Handles submission of order.
+     */
     orderSubmitHandler = () => {
         const { cart, userDetails, deliveryAddress, orderNote } = this.state;
         this.props.submitOrder({ ...cart, userDetails, deliveryAddress, orderNote });
-
-        // this.props.emptyCart();
-    }
-
-    //TODO: Move to own component
-    renderOrderItem = ({ orderItem, onDelete }) => {
-        const { name, orderItemTotal, quantity, uuid, toppings } = orderItem;
-
-        return (
-            <Table.Row key={uuid}>
-                <Table.Cell>
-                    <Button.Group>
-                        <Button onClick={() => onDelete(uuid)} basic>x</Button>
-                    </Button.Group>
-                    <Image avatar src="https://via.placeholder.com/60.png" />
-                </Table.Cell>
-                <Table.Cell>
-                    <Header as={'h4'}>{name}</Header>
-                    <div>{toppings.length > 0 && `With: ${toppings.map(({ quantity, name }) => `${quantity}x ${name}`).join(', ')}`}</div>
-                </Table.Cell>
-                <Table.Cell>
-                    {quantity || 0}
-                </Table.Cell>
-                <Table.Cell>{orderItemTotal}</Table.Cell>
-            </Table.Row>
-        );
+        this.props.emptyCart();
+        this.props.history.replace('/shop');
     }
 
     render() {
@@ -91,10 +84,8 @@ class CartPage extends Component {
 
         const cartTotal = orderItems.reduce((total, orderItem) => total + (orderItem.orderItemTotal), 0);
         const shipping = .05 * cartTotal;
-
         const cartIsEmpty = orderItems.length === 0;
 
-        console.log('The state', this.state);
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>
@@ -115,11 +106,11 @@ class CartPage extends Component {
                                     </Table.Header>
 
                                     <Table.Body>
-                                        {orderItems.map((orderItem) => this.renderOrderItem(
-                                            {
-                                                orderItem,
-                                                onDelete: this.itemDeleteHandler,
-                                            })
+                                        {orderItems.map((orderItem) =>
+                                            <OrderItem
+                                                key={orderItem.uuid} orderItem={orderItem}
+                                                onDelete={this.itemDeleteHandler}
+                                            />
                                         )}
                                         <Table.Row>
                                             <Table.Cell />
