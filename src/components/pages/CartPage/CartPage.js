@@ -89,13 +89,13 @@ class CartPage extends Component {
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>
-                    <Grid.Column width={8}>
+                    <Grid.Column width={6}>
                         <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Your Food Basket</Header>
                             </Grid.Row>
                             <Grid.Row centered>
-                                <Table unstackable className="ui very basic table" padded="very" collapsing>
+                                <Table unstackable className="ui very basic table" collapsing>
                                     <Table.Header>
                                         <Table.Row>
                                             <Table.HeaderCell />
