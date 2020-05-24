@@ -125,7 +125,7 @@ class CartPage extends Component {
                                         <Table.Row>
                                             <Table.Cell />
                                             <Table.Cell />
-                                            <Table.Cell>Shipping</Table.Cell>
+                                            <Table.Cell>Delivery Cost</Table.Cell>
                                             <Table.Cell>{shipping}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
