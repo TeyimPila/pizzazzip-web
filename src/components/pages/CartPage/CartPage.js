@@ -85,7 +85,7 @@ class CartPage extends Component {
 
         const {
             cart: { orderItems },
-            userDetails: { firstName, email, phone, lastName },
+            userDetails: { last_name, email, phone, first_ame },
             deliveryAddress: { addressLine1, addressLine2, zipCode },
             orderNote
         } = this.state;
@@ -157,16 +157,16 @@ class CartPage extends Component {
                                                 required
                                                 label="First name"
                                                 placeholder="First name"
-                                                name="userDetails.firstName"
-                                                value={firstName}
+                                                name="userDetails.first_ame"
+                                                value={first_ame}
                                                 onChange={this.formFieldChangeHandler}
                                             />
                                             <Form.Input
                                                 required
                                                 label="Last name"
                                                 placeholder="Last name"
-                                                name="userDetails.lastName"
-                                                value={lastName}
+                                                name="userDetails.last_name"
+                                                value={last_name}
                                                 onChange={this.formFieldChangeHandler}
                                             />
                                         </Form.Group>
