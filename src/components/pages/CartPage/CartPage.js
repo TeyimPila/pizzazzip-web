@@ -17,8 +17,8 @@ class CartPage extends Component {
         this.state = {
             cart,
             userDetails: {
-                firstName: '',
-                lastName: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 phone: '',
             },
@@ -77,7 +77,7 @@ class CartPage extends Component {
 
         const {
             cart: { orderItems },
-            userDetails: { last_name, email, phone, first_ame },
+            userDetails: { last_name, email, phone, first_name },
             deliveryAddress: { addressLine1, addressLine2, zipCode },
             orderNote
         } = this.state;
@@ -141,14 +141,14 @@ class CartPage extends Component {
                                 <Grid.Column>
                                     <Header>Contact Details</Header>
                                     <Divider style={{ width: '15%' }} />
-                                    <Form>
+                                    <Form onSubmit={this.orderSubmitHandler}>
                                         <Form.Group widths="equal">
                                             <Form.Input
                                                 required
                                                 label="First name"
                                                 placeholder="First name"
-                                                name="userDetails.first_ame"
-                                                value={first_ame}
+                                                name="userDetails.first_name"
+                                                value={first_name}
                                                 onChange={this.formFieldChangeHandler}
                                             />
                                             <Form.Input
@@ -220,7 +220,6 @@ class CartPage extends Component {
                                         <Form.Button
                                             disabled={cartIsEmpty}
                                             color={'green'}
-                                            onClick={this.orderSubmitHandler}
                                             basic
                                             content="Place Order" />
                                     </Form>

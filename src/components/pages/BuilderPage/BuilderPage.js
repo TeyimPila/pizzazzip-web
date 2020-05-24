@@ -105,7 +105,7 @@ class BuilderPage extends Component {
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row centered>
-                    <Grid.Column centered>
+                    <Grid.Column>
                         <Image src={image} alt={name} style={{width: '90%'}} />
                         <Header>{name}: ${unitPrice}</Header>
                         {!isEmpty(ingredients) > 0 && (

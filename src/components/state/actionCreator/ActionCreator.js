@@ -43,6 +43,7 @@ export const asyncActions = (
  * @param token {string}
  */
 export const asyncRequest = (actionName, url, method, body = null, token = '') => (dispatch) => {
+    console.log('lasdfg', body);
     dispatch(asyncActions(actionName).loading(true));
     return apiCall(url, method, body, token)
         .then((res) => {
