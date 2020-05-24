@@ -99,21 +99,21 @@ class BuilderPage extends Component {
             return <Error message="Failed to fetch list of zip codes" />;
         }
 
-        const { description, ingredients, name, unitPrice, id, type } = selectedProduct;
+        const { description, ingredients, name, unitPrice, id, type, image} = selectedProduct;
         const { orderItem: { quantity }, toppings, totalPrice } = this.state;
 
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row centered>
-                    <Grid.Column>
-                        <Image src={'https://via.placeholder.com/550.png'} alt={name} />
-                        <span className="date">{description}</span>
+                    <Grid.Column centered>
+                        <Image src={image} alt={name} style={{width: '90%'}} />
+                        <Header>{name}: ${unitPrice}</Header>
                         {!isEmpty(ingredients) > 0 && (
                             <span style={{ color: 'gray' }}>
                                     Contains: {ingredients.map(ingredient => ingredient.name).join(', ')}
                             </span>
                         )}
-                        <Header>{name} ($2.35)</Header>
+                        <span className="date">{description}</span>
                     </Grid.Column>
                     <Grid.Column style={{ height: '100%', position: 'relative' }}>
                         <Grid.Row>
@@ -139,7 +139,7 @@ class BuilderPage extends Component {
 
                         <List verticalAlign="middle">
                             <List.Item key={id}>
-                                <Image avatar src="https://via.placeholder.com/50.png" />
+                                <Image avatar src={image} />
                                 <List.Content>{name} (${unitPrice})</List.Content>
                                 <Button disabled size="large" floated="right">{quantity}</Button>
                             </List.Item>
@@ -147,6 +147,7 @@ class BuilderPage extends Component {
                                 <ToppingListItem
                                     key={topping.id}
                                     topping={topping}
+                                    image={topping.image}
                                     onAdd={this.toppingQuantityChangeHandler}
                                     onSubtract={this.toppingQuantityChangeHandler}
                                 />
@@ -199,7 +200,6 @@ BuilderPage.propTypes = {
 };
 
 const mapStateToProps = state => {
-    console.log('The cart', state.cart);
     const { loading, failed, toppings, selectedProduct, productLoaded } = state.products;
     return { loading, failed, productLoaded, toppings, selectedProduct };
 };

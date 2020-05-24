@@ -17,7 +17,7 @@ export const AppRouter = () => (
                         <Route path="/" component={HomePage} exact={true} />
                         <Route exact={true} path="/shop" component={ShopPage} />
                         <Route exact={true} path="/cart" component={CartPage} />
-                        <Route exact path="/builder/:id" component={BuilderPage} />
+                        <Route exact path="/builder" component={BuilderPage} />
                         <Route exact path="/about" component={AboutPage} />
                         <Redirect to="/" />
                     </Switch>

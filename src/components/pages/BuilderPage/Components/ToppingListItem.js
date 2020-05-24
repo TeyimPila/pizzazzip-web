@@ -2,11 +2,11 @@ import { Button, Image, List } from 'semantic-ui-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ToppingListItem = ({ topping, onAdd, onSubtract }) => {
+const ToppingListItem = ({ topping, onAdd, onSubtract, image }) => {
 
     return (
         <List.Item key={topping.id}>
-            <Image avatar src='https://via.placeholder.com/50.png' />
+            <Image avatar src={image} />
             <List.Content>{topping.name} (${topping.unitPrice})</List.Content>
             <List.Content floated='right'>
                 <Button.Group>
@@ -23,6 +23,7 @@ const ToppingListItem = ({ topping, onAdd, onSubtract }) => {
 
 ToppingListItem.propTypes = {
     topping: PropTypes.object.isRequired,
+    image: PropTypes.string.isRequired,
     onAdd: PropTypes.func.isRequired,
     onSubtract: PropTypes.func.isRequired,
 };

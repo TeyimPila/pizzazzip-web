@@ -20,7 +20,7 @@ const ProductCardGrid = ({ products, setProduct }) => {
     };
 
     return (
-        <Card.Group stackable={true}>
+        <Card.Group stackable={true} itemsPerRow={4}>
             {products.map((product, i) =>
                 <ProductCard
                     key={i}

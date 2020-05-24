@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const OrderItem = ({ orderItem, onDelete }) => {
-    const { name, orderItemTotal, quantity, uuid, toppings } = orderItem;
+    const { name, orderItemTotal, quantity, uuid, toppings, image } = orderItem;
 
     return (
         <Table.Row key={uuid}>
@@ -11,7 +11,7 @@ const OrderItem = ({ orderItem, onDelete }) => {
                 <Button.Group>
                     <Button onClick={() => onDelete(uuid)} basic>x</Button>
                 </Button.Group>
-                <Image avatar src="https://via.placeholder.com/60.png" />
+                <Image avatar src={image} />
             </Table.Cell>
             <Table.Cell>
                 <Header as={'h4'}>{name}</Header>
