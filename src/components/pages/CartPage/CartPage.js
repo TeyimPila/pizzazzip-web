@@ -89,7 +89,7 @@ class CartPage extends Component {
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={6} style={{margin: '10px'}}>
                         <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Your Food Basket</Header>
@@ -132,12 +132,12 @@ class CartPage extends Component {
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={6} style={{margin: '10px'}}>
                         <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Checkout Details</Header>
                             </Grid.Row>
-                            <Grid.Row>
+                            <Grid.Row centered>
                                 <Grid.Column>
                                     <Header>Contact Details</Header>
                                     <Divider style={{ width: '15%' }} />
