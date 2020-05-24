@@ -2,9 +2,6 @@ import axios from 'axios';
 
 export const baseUrl = 'http://127.0.0.1:8000/api';
 
-// const constructToken = (token) =>
-//     (token ? { Authorization: `Bearer ${token}` } : {});
-
 const composeData = (method, body) =>
     (method === 'post' || method === 'put' ? { data: body } : {});
 
@@ -23,10 +20,6 @@ const apiCall = (url, method, body, token = '') => {
         method,
         url: requestUrl,
         ...composeData(method, body),
-        // headers: {
-        //   // Accept: 'application/json',
-        //   ...constructToken(token),
-        // },
     });
 };
 

@@ -201,7 +201,6 @@ BuilderPage.propTypes = {
     selectedProduct: PropTypes.object,
 };
 
-
 const mapStateToProps = state => {
     console.log('The cart', state.cart);
     const { loading, failed, toppings, selectedProduct, productLoaded } = state.products;

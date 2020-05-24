@@ -1,18 +1,10 @@
-// IMPORT PACKAGE REFERENCES
-
 import React from 'react';
-
-// IMPORT IMAGES
-
 import react from '../../../images/react-small.png';
 import reactrouter from '../../../images/react-router-small.png';
 import redux from '../../../images/redux-small.png';
 import bootstrap from '../../../images/bootstrap4-small.png';
 import sass from '../../../images/sass-small.png';
 import webpack from '../../../images/webpack-small.png';
-
-
-// COMPONENT
 
 const HomePage = () => (
     <main>

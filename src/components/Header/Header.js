@@ -1,9 +1,5 @@
-// IMPORT PACKAGE REFERENCES
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-// COMPONENT
 
 export const Header = () => (
     <nav className="navbar navbar-expand-lg navbar-light alert-dark" style={{ padding: '20px 50px 20px 50px' }}>
