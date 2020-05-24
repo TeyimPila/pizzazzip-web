@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export const baseUrl = 'http://127.0.0.1:8000/api';
+// This is 'hacky'. I couldn't get webpack to set environment variables.
+const currentHost = window.location.hostname;
+export const baseUrl = currentHost === '127.0.0.1' || currentHost ===  'localhost' ? 'http://127.0.0.1:8000/api' : 'https://pizzazzip-api.herokuapp.com/api';
 
 const composeData = (method, body) =>
     (method === 'post' || method === 'put' ? { data: body } : {});

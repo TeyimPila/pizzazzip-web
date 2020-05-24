@@ -6,6 +6,7 @@ import { LoadingIndicator } from '../../shared/LoadingIndicator/LoadingIndicator
 import { Error } from '../../shared/Error/Error';
 import { fetchProducts } from '../../state/actions/productsAction';
 import ProductCardGrid from './Components/ProductCardGrid';
+import {isEmpty} from 'lodash';
 
 class ShopPage extends Component {
 
@@ -28,6 +29,10 @@ class ShopPage extends Component {
 
         if (productsLoaded) {
             body = <ProductCardGrid products={menu} />;
+        }
+
+        if (isEmpty(menu)) {
+            body = <Error severity='warning' title='Still to list our pizzas' message="The menu is empty" />;
         }
 
         return (

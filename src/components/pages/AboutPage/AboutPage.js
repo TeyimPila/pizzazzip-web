@@ -9,9 +9,9 @@ const AboutPage = () => (
         <Divider section />
 
         <p>
-            We are without and epitome of doubt, the best pizza delivery shop that ever existed. Such a bold claim
+            We are without a shred of doubt the best pizza delivery shop that ever existed. Such a bold claim
             you&apos;d
-            say. But why is this? Well, for one simple reason. All orders are free!! But there is a catch, which is,
+            say. But why is this? Well, for one simple reason. All our orders are free!! But there is a catch, which is,
             you&apos;d never receive your orders :)
         </p>
 
