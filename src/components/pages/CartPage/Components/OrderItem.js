@@ -1,6 +1,7 @@
 import { Button, Header, Image, Table } from 'semantic-ui-react';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 const OrderItem = ({ orderItem, onDelete }) => {
     const { name, orderItemTotal, quantity, uuid, toppings, image } = orderItem;
@@ -15,7 +16,7 @@ const OrderItem = ({ orderItem, onDelete }) => {
             </Table.Cell>
             <Table.Cell>
                 <Header as={'h4'}>{name}</Header>
-                <div>{toppings.length > 0 && `With: ${toppings.map(({ quantity, name }) => `${quantity}x ${name}`).join(', ')}`}</div>
+                <div>{!isEmpty(toppings) && `With: ${toppings.map(({ quantity, name }) => `${quantity}x ${name}`).join(', ')}`}</div>
             </Table.Cell>
             <Table.Cell>
                 {quantity || 0}
