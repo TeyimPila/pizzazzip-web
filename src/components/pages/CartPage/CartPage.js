@@ -7,6 +7,7 @@ import { Button, Divider, Form, Grid, Header, Table } from 'semantic-ui-react';
 import { remove, set } from 'lodash';
 import { bindActionCreators } from 'redux';
 import OrderItem from './Components/OrderItem';
+import { euroValue } from '../../../utils/priceUtils';
 
 class CartPage extends Component {
 
@@ -89,7 +90,7 @@ class CartPage extends Component {
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row>
-                    <Grid.Column width={6} style={{margin: '10px'}}>
+                    <Grid.Column width={6} style={{ margin: '10px' }}>
                         <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Your Food Basket</Header>
@@ -116,7 +117,7 @@ class CartPage extends Component {
                                             <Table.Cell />
                                             <Table.Cell />
                                             <Table.Cell>Delivery Cost</Table.Cell>
-                                            <Table.Cell>{shipping}</Table.Cell>
+                                            <Table.Cell>${Math.round(shipping * 100) / 100} | {euroValue(shipping)}€</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell />
@@ -125,14 +126,14 @@ class CartPage extends Component {
                                                     Basket</Button>
                                             </Table.Cell>
                                             <Table.Cell>Total</Table.Cell>
-                                            <Table.Cell>{cartTotal + shipping}</Table.Cell>
+                                            <Table.Cell>${Math.round((cartTotal + shipping) * 100) / 100} | {euroValue(cartTotal + shipping)}€</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                 </Table>
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={6} style={{margin: '10px'}}>
+                    <Grid.Column width={6} style={{ margin: '10px' }}>
                         <Grid centered>
                             <Grid.Row centered>
                                 <Header as={'h1'}>Checkout Details</Header>

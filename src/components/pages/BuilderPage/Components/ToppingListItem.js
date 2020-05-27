@@ -1,13 +1,14 @@
 import { Button, Image, List } from 'semantic-ui-react';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { euroValue } from '../../../../utils/priceUtils';
 
 const ToppingListItem = ({ topping, onAdd, onSubtract, image }) => {
 
     return (
         <List.Item key={topping.id}>
             <Image avatar src={image} />
-            <List.Content>{topping.name} (${topping.unitPrice})</List.Content>
+            <List.Content>{topping.name} (${topping.unitPrice} | {euroValue(topping.unitPrice)} €)</List.Content>
             <List.Content floated='right'>
                 <Button.Group>
                     <Button

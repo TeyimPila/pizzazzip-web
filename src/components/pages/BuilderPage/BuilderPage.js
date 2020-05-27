@@ -10,6 +10,7 @@ import { Button, Divider, Grid, Header, Image, List } from 'semantic-ui-react';
 import { find, isEmpty } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import ToppingListItem from './Components/ToppingListItem';
+import { euroValue } from '../../../utils/priceUtils';
 
 class BuilderPage extends Component {
 
@@ -99,19 +100,21 @@ class BuilderPage extends Component {
             return <Error message="Failed to fetch list of zip codes" />;
         }
 
-        const { description, ingredients, name, unitPrice, id, type, image} = selectedProduct;
+        const { description, ingredients, name, unitPrice, id, type, image } = selectedProduct;
         const { orderItem: { quantity }, toppings, totalPrice } = this.state;
 
         return (
             <Grid columns={2} stackable centered>
                 <Grid.Row centered>
                     <Grid.Column>
-                        <Image src={image} alt={name} style={{width: '90%'}} />
-                        <Header>{name}: ${unitPrice}</Header>
+                        <Image src={image} alt={name} style={{ width: '90%' }} />
+                        <Header>{name}: ${unitPrice} | {euroValue(unitPrice)} €</Header>
                         {!isEmpty(ingredients) > 0 && (
-                            <span style={{ color: 'gray' }}>
+                            <div>
+                                <span style={{ color: 'gray' }}>
                                     Contains: {ingredients.map(ingredient => ingredient.name).join(', ')}
-                            </span>
+                                </span>
+                            </div>
                         )}
                         <span className="date">{description}</span>
                     </Grid.Column>
@@ -140,7 +143,7 @@ class BuilderPage extends Component {
                         <List verticalAlign="middle">
                             <List.Item key={id}>
                                 <Image avatar src={image} />
-                                <List.Content>{name} (${unitPrice})</List.Content>
+                                <List.Content>{name} (${unitPrice} | {euroValue(unitPrice)} €)</List.Content>
                                 <Button disabled size="large" floated="right">{quantity}</Button>
                             </List.Item>
                             {type === 'pizza' && toppings.map((topping) =>
@@ -173,7 +176,7 @@ class BuilderPage extends Component {
                                     color="green" size="large"
                                     style={{ width: '100%' }}
                                 >
-                                    ${totalPrice}
+                                    ${totalPrice} | {euroValue(totalPrice)} ‎€ &nbsp;
                                     <i className={'fa fa-cart-plus'} />
                                 </Button>
                             </Grid.Column>

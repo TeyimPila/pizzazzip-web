@@ -2,6 +2,7 @@ import { Button, Header, Image, Table } from 'semantic-ui-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import { euroValue } from '../../../../utils/priceUtils';
 
 const OrderItem = ({ orderItem, onDelete }) => {
     const { name, orderItemTotal, quantity, uuid, toppings, image } = orderItem;
@@ -21,7 +22,7 @@ const OrderItem = ({ orderItem, onDelete }) => {
             <Table.Cell>
                 {quantity || 0}
             </Table.Cell>
-            <Table.Cell>{orderItemTotal}</Table.Cell>
+            <Table.Cell>${orderItemTotal} | {euroValue(orderItemTotal)}€</Table.Cell>
         </Table.Row>
     );
 };
